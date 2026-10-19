@@ -325,6 +325,12 @@ jobs:
         shell: bash
         run: echo "SODIUM_LIB_DIR=$VCPKG_ROOT/installed/${{ matrix.job.vcpkg-triplet }}/lib" >> "$GITHUB_ENV"
 
+      - name: Rebrand internal app name to Intranet
+        shell: bash
+        run: |
+          sed -i 's/RwLock::new("RustDesk".to_owned())/RwLock::new("Intranet".to_owned())/' libs/hbb_common/src/config.rs
+          grep -n 'APP_NAME: RwLock' libs/hbb_common/src/config.rs
+
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
